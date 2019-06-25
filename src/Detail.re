@@ -6,7 +6,6 @@ let make = (~character, ~onChangeCharacter) => {
   Js.log2("CHARACTER##FATHER: ", character##father);
 
   let handleClick = id => {
-    // Js.log2("HANDLE_CLICK_ID", id);
     onChangeCharacter(id);
   };
 
@@ -33,22 +32,26 @@ let make = (~character, ~onChangeCharacter) => {
   let renderListItem = (~label: string, ~items: option('a)) => {
     switch (items) {
     | Some(items) =>
-      <div> <strong> label->React.string </strong> </div>;
+      {<div> <strong> label->React.string </strong> </div>;
       React.array(
         Belt.Array.map(items, i =>
           <div> {"Loyal to " ++ i |> React.string} </div>
         ),
-      );
+      )};
     | None => React.null
     };
   };
 
   let renderCharacter = (~label: string, ~c) => {
-    switch (c##name) {
-    | Some(name) =>
-      <div> <strong> label->React.string </strong> name->React.string </div>
-    // {""}
-    // <a href="#" onClick={_e => handleClick(c##id)}> {name->React.string} </a>
+    switch (c) {
+    | Some(c) =>{
+          let name = c##name;
+    let id = c##id;
+    <div>
+        <strong> label->React.string </strong>
+        <a href="#" onClick={_e => handleClick(id)}> {name->React.string} </a>
+      </div>;
+    }
     | None => React.null
     };
   };
@@ -70,37 +73,44 @@ let make = (~character, ~onChangeCharacter) => {
     {renderItem("Born: ", character##born)}
     {renderItem("Died: ", character##died)}
     {renderItem("Culture: ", character##culture)}
-    // {father(character)}
-    {switch (character##father) {
-  | Some(father) =>
-    let name = father##name;
-    let id = father##id;
-    <div>
-        <strong> "Father: "->React.string </strong>
-        <a href="#" onClick={_e => handleClick(id)}> {name->React.string} </a>
-        // name->React.string
-      </div>;
-  | None => React.null
-  }}
-    {switch (character##mother) {
-  | Some(mother) =>
-    let name = mother##name;
-    let id = mother##id;
-    <div>
-        <strong> "Mother: "->React.string </strong>
-        <a href="#" onClick={_e => handleClick(id)}> {name->React.string} </a>
-        // name->React.string
-      </div>;
-  | None => React.null
-  }}
-    // {
-    //   renderCharacter("Father", character##father);
-    // }
-    // {
-    //   renderCharacter("Mother", character##mother);
-    // }
-    // {
-    //   renderCharacter("Spouse", character##spouse);
-    // }
+  //   {switch (character##father) {
+  // | Some(father) =>
+  //   let name = father##name;
+  //   let id = father##id;
+  //   <div>
+  //       <strong> "Father: "->React.string </strong>
+  //       <a href="#" onClick={_e => handleClick(id)}> {name->React.string} </a>
+  //     </div>;
+  // | None => React.null
+  // }}
+  //   {switch (character##mother) {
+  // | Some(mother) =>
+  //   let name = mother##name;
+  //   let id = mother##id;
+  //   <div>
+  //       <strong> "Mother: "->React.string </strong>
+  //       <a href="#" onClick={_e => handleClick(id)}> {name->React.string} </a>
+  //     </div>;
+  // | None => React.null
+  // }}
+  //   {switch (character##spouse) {
+  // | Some(spouse) =>
+  //   let name = spouse##name;
+  //   let id = spouse##id;
+  //   <div>
+  //       <strong> "Spouse: "->React.string </strong>
+  //       <a href="#" onClick={_e => handleClick(id)}> {name->React.string} </a>
+  //     </div>;
+  // | None => React.null
+  // }}
+    {
+      renderCharacter("Father: ", character##father);
+    }
+    {
+      renderCharacter("Mother: ", character##mother);
+    }
+    {
+      renderCharacter("Spouse: ", character##spouse);
+    }
   </>;
 };
