@@ -4,21 +4,25 @@
   "description": "Parcel Bundler Example with Reason React",
   "license": "MIT",
   "scripts": {
-    "start": "concurrently -c --kill-others 'npm:watch-html' 'npm:watch-reason'",
+    "start": "concurrently -c --kill-others 'npm:watch-html' 'npm:watch'",
     "build": "parcel build src/index.html --public-url /",
     "clean": "rimraf .cache lib dist .merlin src/*.js",
     "watch-html": "parcel src/index.html",
-    "watch-reason": "bsb -make-world -w"
+    "watch": "bsb -make-world -w",
+    "get-schema": "yarn send-introspection-query http://localhost:4000"
   },
   "dependencies": {
+    "apollo-boost": "0.4.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "reason-apollo": "0.16.4",
     "reason-react": "^0.7.0"
   },
   "devDependencies": {
     "bs-platform": "^5.0.4",
     "bsb-js": "^1.1.7",
     "concurrently": "^4.1.0",
+    "graphql_ppx": "0.2.8",
     "parcel-bundler": "^1.12.3",
     "rimraf": "^2.6.3"
   }

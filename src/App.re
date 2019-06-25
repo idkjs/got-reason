@@ -1,17 +1,33 @@
-open Utils;
-
-requireCSS("./App.css");
-
-let logo = requireAssetURI("./logo.svg");
+Utils.requireCSS("./App.css");
 
 [@react.component]
-let make = (~message) =>
+let make = () => {
+    let (term, setTerm) = React.useState(() => None);
+
+    let handleCitySelected = city => {
+        Js.log2("handleCitySelected_APP",city);
+              setTerm(_ => Some(city));
+        Js.log2("handleCitySelected_APP_TERM",term);
+      };
   <div className="App">
     <header className="App-header">
-      <img src=logo className="App-logo" alt="logo" />
-      <h1 className="App-title"> {React.string(message)} </h1>
+      <h1> {"An app of the seven kingdoms" |> React.string} </h1>
     </header>
-    <p className="App-intro">
-      {React.string("To get started, edit src/App.re and save to reload.")}
-    </p>
+    <div className="Character-wrapper">
+          <CharacterListCB onChangeCharacter=handleCitySelected />
+          <CharacterDetailSwitch term onChangeCharacter=handleCitySelected />
+      // {switch(term) {
+      // | Some(term) => <CharacterDetailCB id=term />
+      // | None =>
+      //    <>
+      //     <h2> {"Character Detail" |> React.string} </h2>
+      //     <div> {"Please select a character" |> React.string} </div>
+      //   </>
+      // }}
+      // <CharacterDetail selectedCharacter />
+      // <CharacterDetail selectedCharacter setSelectedCharacter />
+      // <CharacterList />
+
+    </div>
   </div>;
+};

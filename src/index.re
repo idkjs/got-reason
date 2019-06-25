@@ -1,7 +1,9 @@
 open Utils;
 
 ReactDOMRe.renderToElementWithId(
-  <App message="Welcome to Parcel Reason React" />,
+  <ReasonApollo.Provider client=Client.instance>
+    <App />
+  </ReasonApollo.Provider>,
   "index",
 );
 
