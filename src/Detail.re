@@ -2,7 +2,8 @@ Utils.requireCSS("./CharacterDetail.css");
 
 [@react.component]
 let make = (~character, ~onChangeCharacter) => {
-      Js.log2("CHARACTER: ", character);
+      // Js.log2("CHARACTER: ", character);
+      Js.log2("CHARACTER##FATHER: ", character##father);
 
   let handleClick = id => {
     // Js.log2("HANDLE_CLICK_ID", id);
@@ -24,27 +25,31 @@ let make = (~character, ~onChangeCharacter) => {
   //   | None => "NO_FATHER"->Js.log
   //   };
   // let father = (character) =>
-  //   switch (character##father) {
-  //   | Some(father) =>
-  //     let name =
-  //       switch (father##name) {
-  //       | Some(name) => name |> React.string
-  //       | None => React.null
-  //       };
-  //     let id =
-  //       switch (father##id) {
-  //       | Some(id) => id |> React.string
-  //       | None => React.null
-  //       };
-  //     <div>
-  //       <strong> "Father: "->React.string </strong>
-  //       // {""}
-  //       <a href="#" onClick={_e => onChangeCharacter(id)}>
-  //         name
-  //       </a>
-  //     </div>;
-  //   | None => React.null
-  //   };
+    switch (character##father) {
+    | Some(father) =>
+      // let name =
+      //   switch (father##name) {
+      //   | Some(name) => name |> React.string
+      //   | None => React.null
+      //   };
+        let name = Some(father##name);
+        let id = Some(father##id);
+        Js.log2("FATHER_TEST_NAME: ", name);
+        Js.log2("FATHER_TEST_ID: ", id);
+      // let id =
+      //   switch (father##id) {
+      //   | Some(id) => id |> React.string
+      //   | None => React.null
+      //   };
+      // <div>
+      //   <strong> "Father: "->React.string </strong>
+      //   // {""}
+      //   // <a href="#" onClick={_e => onChangeCharacter(father##id)}>
+      //   //   "name"->React.string
+      //   // </a>
+      // </div>;
+    | None => "NO_FATHER"->Js.log
+    };
 
   // Js.log2("FATHER_TEST: ", test);
 
@@ -92,15 +97,6 @@ let make = (~character, ~onChangeCharacter) => {
      }}
     {renderItem("Culture", character##culture)}
     {renderItem("Played by", character##playedBy)}
-    //    {switch (character##aliases) {
-    //  | Some(aliases) =>
-    //    React.array(
-    //      Belt.Array.map(aliases, a =>
-    //        <div> {"Loyal to " ++ a |> React.string} </div>
-    //      ),
-    //    )
-    //  | None => React.null
-    //  }}
     {renderListItem("Aliases: ", character##aliases)}
     {renderListItem("Titles: ", character##titles)}
     {renderItem("Born: ", character##born)}
