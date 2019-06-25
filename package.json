@@ -1,0 +1,25 @@
+{
+  "name": "parcel-reason-react-app",
+  "version": "1.1.0",
+  "description": "Parcel Bundler Example with Reason React",
+  "license": "MIT",
+  "scripts": {
+    "start": "concurrently -c --kill-others 'npm:watch-html' 'npm:watch-reason'",
+    "build": "parcel build src/index.html --public-url /",
+    "clean": "rimraf .cache lib dist .merlin src/*.js",
+    "watch-html": "parcel src/index.html",
+    "watch-reason": "bsb -make-world -w"
+  },
+  "dependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "reason-react": "^0.7.0"
+  },
+  "devDependencies": {
+    "bs-platform": "^5.0.4",
+    "bsb-js": "^1.1.7",
+    "concurrently": "^4.1.0",
+    "parcel-bundler": "^1.12.3",
+    "rimraf": "^2.6.3"
+  }
+}
