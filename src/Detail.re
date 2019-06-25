@@ -80,10 +80,11 @@ let make = (~character, ~onChangeCharacter) => {
     //   };
     // let name = Some(father##name);
     let name = father##name;
-    let id = Some(father##id);
+    let id = father##id;
     <div>
         <strong> "Father: "->React.string </strong>
-        name->React.string
+        <a href="#" onClick={_e => handleClick(id)}> {name->React.string} </a>
+        // name->React.string
       </div>;
   | None => React.null
   }}
