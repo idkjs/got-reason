@@ -2,56 +2,25 @@ Utils.requireCSS("./CharacterDetail.css");
 
 [@react.component]
 let make = (~character, ~onChangeCharacter) => {
-      // Js.log2("CHARACTER: ", character);
-      Js.log2("CHARACTER##FATHER: ", character##father);
+  // Js.log2("CHARACTER: ", character);
+  Js.log2("CHARACTER##FATHER: ", character##father);
 
   let handleClick = id => {
     // Js.log2("HANDLE_CLICK_ID", id);
     onChangeCharacter(id);
   };
-  // let test = (character) =>
+
+  // let test =
   //   switch (character##father) {
   //   | Some(father) =>
-  //     let name =
-  //       switch (father##name) {
-  //       | Some(name) => name |> Js.log
-  //       | None => "React.null"->Js.log
-  //       };
-  //     let id =
-  //       switch (father##id) {
-  //       | Some(id) => id |> Js.log
-  //       | None =>"React.null"->Js.log
-  //       };
+  //     let name = Some(father##name);
+  //     let name2 = father##name;
+  //     let id = Some(father##id);
+  //     Js.log2("FATHER_TEST_NAME: ", name);
+  //     Js.log2("FATHER_TEST_NAME2: ", name2);
+  //     Js.log2("FATHER_TEST_ID: ", id);
   //   | None => "NO_FATHER"->Js.log
   //   };
-  // let father = (character) =>
-    switch (character##father) {
-    | Some(father) =>
-      // let name =
-      //   switch (father##name) {
-      //   | Some(name) => name |> React.string
-      //   | None => React.null
-      //   };
-        let name = Some(father##name);
-        let id = Some(father##id);
-        Js.log2("FATHER_TEST_NAME: ", name);
-        Js.log2("FATHER_TEST_ID: ", id);
-      // let id =
-      //   switch (father##id) {
-      //   | Some(id) => id |> React.string
-      //   | None => React.null
-      //   };
-      // <div>
-      //   <strong> "Father: "->React.string </strong>
-      //   // {""}
-      //   // <a href="#" onClick={_e => onChangeCharacter(father##id)}>
-      //   //   "name"->React.string
-      //   // </a>
-      // </div>;
-    | None => "NO_FATHER"->Js.log
-    };
-
-  // Js.log2("FATHER_TEST: ", test);
 
   let renderItem = (~label: string, ~item) => {
     switch (item) {
@@ -77,10 +46,9 @@ let make = (~character, ~onChangeCharacter) => {
   let renderCharacter = (~label: string, ~c) => {
     switch (c##name) {
     | Some(name) =>
-      <div>
-         <strong> label->React.string </strong> name->React.string </div>
-        // {""}
-        // <a href="#" onClick={_e => handleClick(c##id)}> {name->React.string} </a>
+      <div> <strong> label->React.string </strong> name->React.string </div>
+    // {""}
+    // <a href="#" onClick={_e => handleClick(c##id)}> {name->React.string} </a>
     | None => React.null
     };
   };
@@ -103,6 +71,22 @@ let make = (~character, ~onChangeCharacter) => {
     {renderItem("Died: ", character##died)}
     {renderItem("Culture: ", character##culture)}
     // {father(character)}
+    {switch (character##father) {
+  | Some(father) =>
+    // let name =
+    //   switch (father##name) {
+    //   | Some(name) => name |> React.string
+    //   | None => React.null
+    //   };
+    // let name = Some(father##name);
+    let name = father##name;
+    let id = Some(father##id);
+    <div>
+        <strong> "Father: "->React.string </strong>
+        name->React.string
+      </div>;
+  | None => React.null
+  }}
     // {
     //   renderCharacter("Father", character##father);
     // }
