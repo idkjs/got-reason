@@ -1,3 +1,5 @@
+Utils.requireCSS("./CharacterList.css");
+
 [@react.component]
 let make = (~character) => {
  let handleClick = (name) => Js.log(name);
@@ -6,7 +8,7 @@ let make = (~character) => {
   };
   let culture =
     switch (character##culture) {
-    | Some(culture) => <p> {React.string(culture)} </p>
+    | Some(culture) => culture |> React.string
     | None => React.null
     };
   let playedBy =
@@ -21,8 +23,8 @@ let make = (~character) => {
     | false => <div> {"Dead" |> React.string} </div>
     };
   <li>
-    <strong> <a href="#" onClick={_e => handleClick(character##id)}> name </a> </strong>
-    {culture}
+    <strong> <a href="#" onClick={_e => handleClick(character##id)}> name </a> culture </strong>
+
     {playedBy}
     {switch (character##allegiances) {
      | Some(allegiances) =>{
@@ -35,7 +37,4 @@ let make = (~character) => {
      }}
      {aliveOrDead}
   </li>;
-  // <a href="#" onClick={_e => select}>
-  //   {character##name}
-  // </a>
 };
