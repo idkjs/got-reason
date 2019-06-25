@@ -73,16 +73,21 @@ let make = (~character, ~onChangeCharacter) => {
     // {father(character)}
     {switch (character##father) {
   | Some(father) =>
-    // let name =
-    //   switch (father##name) {
-    //   | Some(name) => name |> React.string
-    //   | None => React.null
-    //   };
-    // let name = Some(father##name);
     let name = father##name;
     let id = father##id;
     <div>
         <strong> "Father: "->React.string </strong>
+        <a href="#" onClick={_e => handleClick(id)}> {name->React.string} </a>
+        // name->React.string
+      </div>;
+  | None => React.null
+  }}
+    {switch (character##mother) {
+  | Some(mother) =>
+    let name = mother##name;
+    let id = mother##id;
+    <div>
+        <strong> "Mother: "->React.string </strong>
         <a href="#" onClick={_e => handleClick(id)}> {name->React.string} </a>
         // name->React.string
       </div>;
