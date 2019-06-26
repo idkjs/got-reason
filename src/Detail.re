@@ -38,41 +38,41 @@ let make = (~character, ~onChangeCharacter) => {
     | None => React.null
     };
   };
+  let checkIfLastItem = (arr, index) =>
+    switch (index === Belt.Array.length(arr) - 1) {
+    | true => true
+    | _ => false
+    };
   <>
     <h2> {character##name |> React.string} </h2>
     {switch (character##allegiances) {
      | Some(allegiances) =>
-       let lastIndex = Belt.Array.length(allegiances);
-        Js.log2("LENGTH: ", lastIndex);
-       let withConcat =
-         Belt.Array.map(allegiances, a => a##name) |> Belt.List.fromArray(_);
-       let withConcatI =
-         allegiances->Belt.Array.mapWithIndex((i, a) => (i, a))
-         |> Belt.List.fromArray(_);
-       let lastItem = withConcatI->List.length - 1;
-       let renderItem = (index, item) =>
-         {<div> {item##name |> React.string} </div>};
-       let renderItemWithComma = (index, item) =>
-         {<div> {item##name |> React.string} {", " |> React.string} </div>};
-       Js.log(string_of_int(lastItem));
-       let filterFx = (index, item) =>
-         switch (index === lastIndex - 1) {
-         | true => renderItem(index, item)
-         | _ => renderItemWithComma(index, item)
-         };
+       //  let lastIndex = Belt.Array.length(allegiances);
+       //   Js.log2("LENGTH: ", lastIndex);
+       //  let withConcat =
+       //    Belt.Array.map(allegiances, a => a##name) |> Belt.List.fromArray(_);
+       //  let withConcatI =
+       //    allegiances->Belt.Array.mapWithIndex((i, a) => (i, a))
+       //    |> Belt.List.fromArray(_);
+       //  let lastItem = withConcatI->List.length - 1;
+       let renderLast = item => item##name |> React.string;
+       let renderItemWithComma = item => item##name ++ ", " |> React.string;
+       //  Js.log(string_of_int(lastItem));
+       let renderFunc = (index, item) =>
+         checkIfLastItem(allegiances, index)
+           ? renderLast(item) : renderItemWithComma(item);
+       //  let filterFx = (index, item) =>
+       //    switch (index === lastIndex - 1) {
+       //    | true => renderItem(item)
+       //    | _ => renderItemWithComma(item)
+       //    };
        //  let result = withConcatI Belt.List.map(i,a)|> {
        //        i === lastItem ? () : String.concat(", ")
        //  } |> Belt.List.toArray;
        <div>
-          <strong> {"Loyal to: " |> React.string} </strong> {allegiances->Belt.Array.mapWithIndex(filterFx)->React.array} </div>;
-         //  {React.array(
-         //     Belt.Array.map(allegiances, a =>
-         //       <div>
-         //         {a##name |> React.string}
-         //         {" " |> React.string}
-         //       </div>
-         //     ),
-         //   )}
+         <strong> {"Loyal to: " |> React.string} </strong>
+         {allegiances->Belt.Array.mapWithIndex(renderFunc)->React.array}
+       </div>;
      | None => React.null
      }}
     {renderItem("Culture: ", character##culture)}
