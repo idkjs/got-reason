@@ -2,9 +2,16 @@
 
 see:<https://www.formidable.com/blog/2019/strong-typing/> for Typescript Version via [@smusumeche](https://twitter.com/smusumeche)'s excellent blog post. Thanks, Steve.
 
+## Running
+
+`cd got-server && yarn && yarn start`
+`cd ../`
+`yarn and yarn watch`
+In new terminal, `yarn start`
+
 ## Todo
 
-- Figure out how to use `Belt.Array.concat` or some other method to get the items in `src/Detail.re` `allegiances to render with a comma between them. I need it to know how to get it to look like this:
+- Figure out how to use `Belt.Array.concat` or some other method to get the items in `src/Detail.re` `allegiances to render with a comma between them. I need it to know how to get it to look like this: Answer is in `Detail.re`
 
 - Figure out how to create and use graphql fragments using [reason-apollo](https://github.com/apollographql/reason-apollo)
 
