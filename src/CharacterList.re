@@ -1,31 +1,7 @@
 Utils.requireCSS("./CharacterList.css");
-Utils.requireCSS("./CharacterDetail.css");
-
-module CharacterList = [%graphql
-  {|
-      query CharacterList {
-        getCharacters(sortDirection: ASC) {
-          id
-          name
-          playedBy
-          culture
-          allegiances {
-            name
-          }
-          isAlive
-      }
-    }
-  |}
-];
-
-module CharacterListQuery = ReasonApollo.CreateQuery(CharacterList);
-
+open CharacterListQuery;
 [@react.component]
 let make = (~onChangeCharacter) => {
-  // let _ = {
-  //   Js.log("onChangeCharacter_");
-  //   onChangeCharacter("37");
-  // };
   <div className="CharacterList">
     <h2> {"All Characters" |> React.string} </h2>
     <CharacterListQuery>
@@ -48,7 +24,7 @@ let make = (~onChangeCharacter) => {
                   />
                ),
              )}
-          </ul>;
+          </ul>
         }
       }
     </CharacterListQuery>

@@ -1,4 +1,4 @@
-Utils.requireCSS("./CharacterList.css");
+// Utils.requireCSS("./CharacterList.css");
 
 [@react.component]
 let make = (~character,~onChangeCharacter) => {

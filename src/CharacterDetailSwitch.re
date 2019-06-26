@@ -16,21 +16,16 @@ let make = (~selectedCharacter, ~onChangeCharacter) => {
            | Data(response) =>
              switch (response##getCharacter) {
              | None => "No Character Data" |> React.string
-             | Some(character) =>
-             <Detail character onChangeCharacter />
-            //  <div className="CharacterDetail">
-            //     <CharacterListItem character />
-            //   </div>
+             | Some(character) => <Detail character onChangeCharacter />
              }
-           }
-           }
+           }}
         </div>
       }
     </CharacterDetailQuery>;
   | None =>
-    <>
+    <div className="CharacterDetail">
       <h2> {"Character Detail" |> React.string} </h2>
       <div> {"Please select a character" |> React.string} </div>
-    </>;
+    </div>
   };
 };

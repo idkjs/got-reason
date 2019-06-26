@@ -1,5 +1,5 @@
 Utils.requireCSS("./CharacterDetail.css");
-Utils.requireCSS("./CharacterList.css");
+// Utils.requireCSS("./CharacterList.css");
 open CharacterDetailQuery;
 [@react.component]
 let make = (~id) => {
@@ -9,7 +9,7 @@ let make = (~id) => {
     let characterDetailQuery = CharacterDetail.make(~id, ());
     <CharacterDetailQuery variables=characterDetailQuery##variables>
       ...{({result}) =>
-        <div>
+        <div className="CharacterDetail">
           {switch (result) {
            | Error(e) =>
              Js.log(e);
