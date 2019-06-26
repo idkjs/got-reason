@@ -1,10 +1,10 @@
 Utils.requireCSS("./CharacterDetail.css");
 open CharacterDetailQuery;
 [@react.component]
-let make = (~term, ~onChangeCharacter) => {
-  switch (term) {
-  | Some(term) =>
-    let characterDetailQuery = CharacterDetail.make(~id=term, ());
+let make = (~selectedCharacter, ~onChangeCharacter) => {
+  switch (selectedCharacter) {
+  | Some(id) =>
+    let characterDetailQuery = CharacterDetail.make(~id, ());
     <CharacterDetailQuery variables=characterDetailQuery##variables>
       ...{({result}) =>
         <div className="CharacterDetail">
