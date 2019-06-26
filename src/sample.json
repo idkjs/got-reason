@@ -1,0 +1,83 @@
+{
+  "id": "12",
+  "name": "Balon Greyjoy",
+  "playedBy": "Patrick Malahide",
+  "titles": [
+    "Iron King",
+    "King of the Isles and the North",
+    "King of Salt and Rock",
+    "Son of the Sea Wind",
+    "Lord Reaper of Pyke",
+    "The Greyjoy",
+    "Captain of the Great Kraken"
+  ],
+  "aliases": [
+    "Balon the Brave",
+    "Balon the Blessed",
+    "Balon the Twice Crowned",
+    "Balon the Widowmaker",
+    "The Kraken King"
+  ],
+  "died": "299 AC, at Pyke",
+  "allegiances": [],
+  "isAlive": false,
+  "father": {
+    "id": "836",
+    "name": "Quellon Greyjoy"
+  },
+  "spouse": {
+    "id": "66",
+    "name": "Alannys Harlaw"
+  },
+  "children": [
+    {
+      "id": "913",
+      "name": "Rodrik Greyjoy"
+    },
+    {
+      "id": "718",
+      "name": "Maron Greyjoy"
+    },
+    {
+      "id": "150",
+      "name": "Asha Greyjoy"
+    },
+    {
+      "id": "1022",
+      "name": "Theon Greyjoy"
+    }
+  ],
+  "appearedIn": [
+    {
+      "name": "Season 2"
+    },
+    {
+      "name": "Season 3"
+    },
+    {
+      "name": "Season 6"
+    }
+  ],
+  "books": [
+    {
+      "id": "1",
+      "name": "A Game of Thrones"
+    },
+    {
+      "id": "2",
+      "name": "A Clash of Kings"
+    },
+    {
+      "id": "3",
+      "name": "A Storm of Swords"
+    },
+    {
+      "id": "5",
+      "name": "A Feast for Crows"
+    },
+    {
+      "id": "8",
+      "name": "A Dance with Dragons"
+    }
+  ]
+}

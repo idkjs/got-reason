@@ -4,7 +4,8 @@
   "description": "Parcel Bundler Example with Reason React",
   "license": "MIT",
   "scripts": {
-    "start": "concurrently -c --kill-others 'npm:watch-html' 'npm:watch'",
+    "startdev": "concurrently -c --kill-others 'npm:watch-html' 'npm:watch'",
+    "start": "concurrently -c --kill-others 'npm:watch-html' ",
     "build": "parcel build src/index.html --public-url /",
     "clean": "rimraf .cache lib dist .merlin src/*.js",
     "watch-html": "parcel src/index.html",
@@ -13,6 +14,7 @@
   },
   "dependencies": {
     "apollo-boost": "0.4.3",
+    "get_in_ppx": "1.0.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "reason-apollo": "0.16.4",

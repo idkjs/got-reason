@@ -23,6 +23,7 @@
   },
   "suffix": ".bs.js",
   "ppx-flags": [
-    "graphql_ppx/ppx"
+    "graphql_ppx/ppx",
+    "get_in_ppx/ppx"
   ]
 }

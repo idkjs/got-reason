@@ -1,11 +1,11 @@
 Utils.requireCSS("./CharacterList.css");
 
 [@react.component]
-let make = (~character,~onChangeCharacter) => {
- let handleClick = (id) => {
-   onChangeCharacter(id);
-   };
-     let name = {
+let make = (~character, ~onChangeCharacter) => {
+  let handleClick = id => {
+    onChangeCharacter(id);
+  };
+  let name = {
     character##name |> React.string;
   };
   let culture =
@@ -20,23 +20,24 @@ let make = (~character,~onChangeCharacter) => {
     | None => React.null
     };
   let aliveOrDead =
-    switch (character##isAlive) {
-    | true => <div> {"Alive" |> React.string} </div>
-    | false => <div> {"Dead" |> React.string} </div>
-    };
+    character##isAlive
+      ? <div> {"Alive" |> React.string} </div>
+      : <div> {"Dead" |> React.string} </div>;
   <li>
-    <strong> <a href="#" onClick={_e => handleClick(character##id)}> name </a> culture </strong>
-
-    {playedBy}
+    <strong>
+      <a href="#" onClick={_e => handleClick(character##id)}> name </a>
+      culture
+    </strong>
+    playedBy
     {switch (character##allegiances) {
-     | Some(allegiances) =>{
+     | Some(allegiances) =>
        React.array(
          Belt.Array.map(allegiances, a =>
            <div> {"Loyal to " ++ a##name |> React.string} </div>
          ),
-       )}
+       )
      | None => React.null
      }}
-     {aliveOrDead}
+    aliveOrDead
   </li>;
 };
