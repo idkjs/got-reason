@@ -13,15 +13,40 @@ let make = (~character, ~onChangeCharacter) => {
     | None => React.null
     };
   };
-
-  let renderListItem = (~label: string, ~items: option('a)) => {
+  let renderComma = (arr, index) =>
+    index !== Belt.Array.length(arr) - 1
+      ? {
+        ", " |> React.string;
+      }
+      : React.null;
+  // let renderListItem = (~label: string, ~items) => {
+  //   switch (items) {
+  //   | Some(items) =>
+  //     <div>
+  //       <strong> label->React.string </strong>
+  //       {items->Belt.Array.mapWithIndex((i, item) => item |> React.string |> {renderComma(items, i)}
+  //        |> React.array})
+  //       |> {renderComma(items, i)}
+  //        |> React.array}
+  //     </div>
+  //   | None => React.null
+  //   };
+  // };
+  let renderListItem = (~label: string, ~items) => {
     switch (items) {
     | Some(items) =>
+      let arr = items;
       <div>
         <strong> label->React.string </strong>
-        {React.array(Belt.Array.map(items, i => i ++ " " |> React.string))}
-        {" " |> React.string}
-      </div>
+        {Belt.Array.mapWithIndex(arr, (index, item) =>
+           <>
+             item->React.string
+             {renderComma(arr, index)}
+             {" " |> React.string}
+           </>
+         )
+         |> React.array}
+      </div>;
     | None => React.null
     };
   };
@@ -38,6 +63,44 @@ let make = (~character, ~onChangeCharacter) => {
     | None => React.null
     };
   };
+
+  Js.log2("CHARACTER_ALIASES: ", character##aliases);
+  let renderAliases = {
+    switch (character##aliases) {
+    | Some(aliases) =>
+      let arr = aliases;
+      <div>
+        <strong> {"Aliases: " |> React.string} </strong>
+        {Belt.Array.mapWithIndex(arr, (index, a) =>
+           <>
+             a->React.string
+             {renderComma(arr, index)}
+             {" " |> React.string}
+           </>
+         )
+         |> React.array}
+      </div>;
+    | None => React.null
+    };
+  };
+  let renderTitles = {
+    switch (character##titles) {
+    | Some(titles) =>
+      let arr = titles;
+      <div>
+        <strong> {"Titles: " |> React.string} </strong>
+        {Belt.Array.mapWithIndex(arr, (index, a) =>
+           <>
+             a->React.string
+             {renderComma(arr, index)}
+             {" " |> React.string}
+           </>
+         )
+         |> React.array}
+      </div>;
+    | None => React.null
+    };
+  };
   let checkIfLastItem = (arr, index) =>
     switch (index === Belt.Array.length(arr) - 1) {
     | true => true
@@ -45,43 +108,33 @@ let make = (~character, ~onChangeCharacter) => {
     };
   <>
     <h2> {character##name |> React.string} </h2>
+    // {renderAllegiances}
     {switch (character##allegiances) {
      | Some(allegiances) =>
-       //  let lastIndex = Belt.Array.length(allegiances);
-       //   Js.log2("LENGTH: ", lastIndex);
-       //  let withConcat =
-       //    Belt.Array.map(allegiances, a => a##name) |> Belt.List.fromArray(_);
-       //  let withConcatI =
-       //    allegiances->Belt.Array.mapWithIndex((i, a) => (i, a))
-       //    |> Belt.List.fromArray(_);
-       //  let lastItem = withConcatI->List.length - 1;
-       let renderLast = item => item##name |> React.string;
-       let renderItemWithComma = item => item##name ++ ", " |> React.string;
-       //  Js.log(string_of_int(lastItem));
-       let renderFunc = (index, item) =>
-         checkIfLastItem(allegiances, index)
-           ? renderLast(item) : renderItemWithComma(item);
-       //  let filterFx = (index, item) =>
-       //    switch (index === lastIndex - 1) {
-       //    | true => renderItem(item)
-       //    | _ => renderItemWithComma(item)
-       //    };
-       //  let result = withConcatI Belt.List.map(i,a)|> {
-       //        i === lastItem ? () : String.concat(", ")
-       //  } |> Belt.List.toArray;
-       <div>
-         <strong> {"Loyal to: " |> React.string} </strong>
-         {allegiances->Belt.Array.mapWithIndex(renderFunc)->React.array}
-       </div>;
+       switch (Belt.Array.length(allegiances)) {
+       | 0 => React.null
+       | _ =>
+         let renderLast = item => item##name |> React.string;
+         let renderItemWithComma = item => item##name ++ ", " |> React.string;
+         let renderFunc = (index, item) =>
+           checkIfLastItem(allegiances, index)
+             ? renderLast(item) : renderItemWithComma(item);
+         <div>
+           <strong> {"Loyal to: " |> React.string} </strong>
+           {allegiances->Belt.Array.mapWithIndex(renderFunc)->React.array}
+         </div>;
+       }
      | None => React.null
      }}
-    {renderItem("Culture: ", character##culture)}
-    {renderItem("Played by: ", character##playedBy)}
-    {renderListItem("Titles: ", character##titles)}
-    {renderListItem("Aliases: ", character##aliases)}
-    {renderItem("Born: ", character##born)}
-    {renderItem("Died: ", character##died)}
-    {renderItem("Culture: ", character##culture)}
+    {renderItem(~label="Culture: ", ~item=character##culture)}
+    {renderItem(~label="Played by: ", ~item=character##playedBy)}
+    // {renderTitles}
+    {renderListItem(~label="Titles: ", ~items=character##titles)}
+    {renderListItem(~label="Aliases: ", ~items=character##aliases)}
+    // renderAliases
+    {renderItem(~label="Born: ", ~item=character##born)}
+    {renderItem(~label="Died: ", ~item=character##died)}
+    {renderItem(~label="Culture: ", ~item=character##culture)}
     {renderCharacter("Father: ", character##father)}
     {renderCharacter("Mother: ", character##mother)}
     {renderCharacter("Spouse: ", character##spouse)}
@@ -108,26 +161,38 @@ let make = (~character, ~onChangeCharacter) => {
      | None => React.null
      }}
     {Belt.Array.length(character##appearedIn) > 0
-       ? <div>
+       ? {
+         let arr = character##appearedIn;
+
+         <div>
            <strong> {"TV Seasons: " |> React.string} </strong>
            <br />
-           {Belt.Array.map(character##appearedIn, season =>
-              <> {season##name->React.string} {" " |> React.string} </>
+           {arr->Belt.Array.mapWithIndex((index, season) =>
+              <>
+                {season##name->React.string}
+                {renderComma(arr, index)}
+                {" " |> React.string}
+              </>
             )
             |> React.array}
-         </div>
+         </div>;
+       }
        : React.null}
     {switch (character##books) {
      | Some(books) =>
+       let arr = books;
        <div>
          <strong> {"Books: " |> React.string} </strong>
          <br />
-         {React.array(
-            Belt.Array.map(books, c =>
-              <> {c##name->React.string} {" " |> React.string} </>
-            ),
-          )}
-       </div>
+         {books->Belt.Array.mapWithIndex((index, book) =>
+            <>
+              {book##name->React.string}
+              {renderComma(arr, index)}
+              {" " |> React.string}
+            </>
+          )
+          |> React.array}
+       </div>;
      | None => React.null
      }}
   </>;
