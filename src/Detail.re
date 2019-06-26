@@ -22,22 +22,23 @@ let make = (~character, ~onChangeCharacter) => {
 
   let renderListItem = (~label: string, ~items) => {
     switch (items) {
-    | Some(items) =>
-      let arr = items;
+    | Some(items) => switch (Belt.Array.length(items)) {
+       | 0 => React.null
+       | _ =>
       <div>
         <strong> label->React.string </strong>
-        {Belt.Array.mapWithIndex(arr, (index, item) =>
+        {Belt.Array.mapWithIndex(items, (index, item) =>
            <>
              item->React.string
-             {renderComma(arr, index)}
+             {renderComma(items, index)}
              {" " |> React.string}
            </>
          )
          |> React.array}
       </div>;
+    }
     | None => React.null
-    };
-  };
+  }};
 
   let renderCharacter = (~label: string, ~c) => {
     switch (c) {
@@ -99,6 +100,7 @@ let make = (~character, ~onChangeCharacter) => {
     {renderCharacter("Father: ", character##father)}
     {renderCharacter("Mother: ", character##mother)}
     {renderCharacter("Spouse: ", character##spouse)}
+
     {switch (character##children) {
      | Some(children) =>
        switch (Belt.Array.length(children)) {
