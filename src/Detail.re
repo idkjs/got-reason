@@ -50,14 +50,16 @@ let make = (~character, ~onChangeCharacter) => {
 
   {
     Js.log2("CHARACTER: ", character);
-    Js.log2("CHARACTER##BOOKS: ", character##books);
+    // Js.log2("CHARACTER##BOOKS: ", character##books);
     Js.log2("CHARACTER##CHILDREN: ", character##children);
-    Js.log2("CHARACTER##APPEAREDIN: ", character##appearedIn);
-    let cities = [%get_in character##appearedIn];
-    Js.log2("CHARACTER##CITIES: ", cities);
-    Js.log2("LENGTH: ", Belt.Array.length(character##appearedIn));
-    Belt.Array.map(cities, city => Js.log(city##name));
-    Belt.Array.map(character##appearedIn, city => Js.log(city##name));
+    // Js.log2("CHARACTER##APPEAREDIN: ", character##appearedIn);
+    // let cities = [%get_in character##appearedIn];
+    // Js.log2("CHARACTER##CITIES: ", cities);
+    // Js.log2("LENGTH: ", Belt.Array.length(character##children));
+    // Js.log2("CHILDREN_LENGTH: ", Belt.Array.length(character##children));
+    // Belt.Array.map(cities, city => Js.log(city##name));
+    // Belt.Array.map(character##appearedIn, city => Js.log(city##name));
+    // Belt.Array.map(character##children, city => Js.log(city##name));
     // let items = cities->Belt.Array.keepMap(city => city);
     //     character##appearedIn
     //  ->Belt.Array.keepMap(season => season)
@@ -92,8 +94,8 @@ let make = (~character, ~onChangeCharacter) => {
      }}
     {renderItem("Culture", character##culture)}
     {renderItem("Played by: ", character##playedBy)}
-    {renderListItem("Aliases: ", character##aliases)}
     {renderListItem("Titles: ", character##titles)}
+    {renderListItem("Aliases: ", character##aliases)}
     {renderItem("Born: ", character##born)}
     {renderItem("Died: ", character##died)}
     {renderItem("Culture: ", character##culture)}
@@ -102,22 +104,36 @@ let make = (~character, ~onChangeCharacter) => {
     {renderCharacter("Spouse: ", character##spouse)}
     {switch (character##children) {
      | Some(children) =>
-       <div>
-         <strong> {"Children" |> React.string} </strong>
-         <br />
-         {React.array(
-            Belt.Array.map(children, c =>
-              <>
-                <a href="#" onClick={_e => handleClick(c##id)}>
-                  {c##name->React.string}
-                </a>
-                <br />
-              </>
-            ),
-          )}
-       </div>
+       switch (Belt.Array.length(children)) {
+       | 0 => React.null
+       | _ =>
+         <div>
+           <strong> {"Children" |> React.string} </strong>
+           <br />
+           {React.array(
+              Belt.Array.map(children, c =>
+                <>
+                  <a href="#" onClick={_e => handleClick(c##id)}>
+                    {c##name->React.string}
+                  </a>
+                  <br />
+                </>
+              ),
+            )}
+         </div>
+       }
      | None => React.null
      }}
+     {Belt.Array.length(character##appearedIn) > 0
+       ? <div>
+           <strong> {"TV Seasons: " |> React.string} </strong>
+           <br />
+           {Belt.Array.map(character##appearedIn, season =>
+              <> {season##name->React.string} <br /> </>
+            )
+            |> React.array}
+         </div>
+       : React.null}
     {switch (character##books) {
      | Some(books) =>
        <div>
@@ -129,53 +145,6 @@ let make = (~character, ~onChangeCharacter) => {
        </div>
      | None => React.null
      }}
-    {Belt.Array.length(character##appearedIn) > 0 ? <div>
-       <strong> {"TV Seasons: " |> React.string} </strong>
-       <br />
-       {Belt.Array.map(character##appearedIn, season =>
-          <> {season##name->React.string} <br /> </>
-        )
-        |> React.array}
-     </div>: React.null}
-    // {<div>
-    //    <strong> {"TV Seasons: " |> React.string} </strong>
-    //    <br />
-    //    {Belt.Array.map(character##appearedIn, season =>
-    //       <> {season##name->React.string} <br /> </>
-    //     )
-    //     |> React.array}
-    //  </div>}
-    // {character##appearedIn ? <div>
-    //        <strong> {"Has Appeared In: " |> React.string} </strong>
-    //        <br />
-    //      </div> : React.string("No Appearances")
-    //  }
-    // {switch (character##appearedIn) {
-    //  | Some(appearedIn) =>
-    //    <div>
-    //        <strong> {"Has Appeared In: " |> React.string} </strong>
-    //        <br />
-    //      </div>
-    //  | None => <div> React.string("No Appearances")</div>
-    //  }}
-    //  {character##appearedIn
-    //  ->Belt.Option.map(season => season)
-    //  ->Belt.Option.getWithDefault(React.null)
-    //  }
-    // {switch (character##appearedIn) {
-    //  | Some(appearedIn) =>{
-    //    Js.log(appearedIn);
-    //    let seasons = Belt.Array.map(appearedIn, season => season);
-    //    Js.log2("SEASONS", seasons);
-    //    <div>
-    //       <strong> {"Appeared In Should be here: " |> React.string} </strong> <br /> </div>}
-    //      //  {
-    //      //    appearedIn
-    //      //     |> Js.Array.map((season) => <> season##name->React.string <br /> </>)
-    //      //     |> React.array
-    //      //   )}
-    //  | None => React.null
-    //  }}
-    //  {renderListItem("Character appeared in", character##appearedIn)}
+
   </>;
 };
