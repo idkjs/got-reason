@@ -17,3 +17,5 @@ see:<https://www.formidable.com/blog/2019/strong-typing/> for Typescript Version
 And not like this:
 
 ![ui-sample-bad](./readme/balongreyjoybad.png)
+
+Worked it out with some help from the ReasonML community. See [src/Detail.re](./src/Detail.re) to see how.
