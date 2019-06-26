@@ -19,19 +19,7 @@ let make = (~character, ~onChangeCharacter) => {
         ", " |> React.string;
       }
       : React.null;
-  // let renderListItem = (~label: string, ~items) => {
-  //   switch (items) {
-  //   | Some(items) =>
-  //     <div>
-  //       <strong> label->React.string </strong>
-  //       {items->Belt.Array.mapWithIndex((i, item) => item |> React.string |> {renderComma(items, i)}
-  //        |> React.array})
-  //       |> {renderComma(items, i)}
-  //        |> React.array}
-  //     </div>
-  //   | None => React.null
-  //   };
-  // };
+
   let renderListItem = (~label: string, ~items) => {
     switch (items) {
     | Some(items) =>
@@ -64,43 +52,6 @@ let make = (~character, ~onChangeCharacter) => {
     };
   };
 
-  Js.log2("CHARACTER_ALIASES: ", character##aliases);
-  let renderAliases = {
-    switch (character##aliases) {
-    | Some(aliases) =>
-      let arr = aliases;
-      <div>
-        <strong> {"Aliases: " |> React.string} </strong>
-        {Belt.Array.mapWithIndex(arr, (index, a) =>
-           <>
-             a->React.string
-             {renderComma(arr, index)}
-             {" " |> React.string}
-           </>
-         )
-         |> React.array}
-      </div>;
-    | None => React.null
-    };
-  };
-  let renderTitles = {
-    switch (character##titles) {
-    | Some(titles) =>
-      let arr = titles;
-      <div>
-        <strong> {"Titles: " |> React.string} </strong>
-        {Belt.Array.mapWithIndex(arr, (index, a) =>
-           <>
-             a->React.string
-             {renderComma(arr, index)}
-             {" " |> React.string}
-           </>
-         )
-         |> React.array}
-      </div>;
-    | None => React.null
-    };
-  };
   let checkIfLastItem = (arr, index) =>
     switch (index === Belt.Array.length(arr) - 1) {
     | true => true
@@ -108,7 +59,6 @@ let make = (~character, ~onChangeCharacter) => {
     };
   <>
     <h2> {character##name |> React.string} </h2>
-    // {renderAllegiances}
     {switch (character##allegiances) {
      | Some(allegiances) =>
        switch (Belt.Array.length(allegiances)) {
@@ -119,19 +69,30 @@ let make = (~character, ~onChangeCharacter) => {
          let renderFunc = (index, item) =>
            checkIfLastItem(allegiances, index)
              ? renderLast(item) : renderItemWithComma(item);
+            let arr = allegiances;
          <div>
            <strong> {"Loyal to: " |> React.string} </strong>
-           {allegiances->Belt.Array.mapWithIndex(renderFunc)->React.array}
+           {arr->Belt.Array.mapWithIndex(renderFunc)->React.array}
+          //  {
+          //     Belt.Array.mapWithIndex(arr, (index, item) =>
+          //       <>
+          //         <a href="#" onClick={_e => handleClick(item##id)}>
+          //           {item##name->React.string}
+          //                        {renderComma(arr, index)}
+
+          //         </a>
+          //         {" " |> React.string}
+          //       </>
+          //     )|> React.array
+          //   }
          </div>;
        }
      | None => React.null
      }}
     {renderItem(~label="Culture: ", ~item=character##culture)}
     {renderItem(~label="Played by: ", ~item=character##playedBy)}
-    // {renderTitles}
     {renderListItem(~label="Titles: ", ~items=character##titles)}
     {renderListItem(~label="Aliases: ", ~items=character##aliases)}
-    // renderAliases
     {renderItem(~label="Born: ", ~item=character##born)}
     {renderItem(~label="Died: ", ~item=character##died)}
     {renderItem(~label="Culture: ", ~item=character##culture)}
@@ -144,8 +105,7 @@ let make = (~character, ~onChangeCharacter) => {
        | 0 => React.null
        | _ =>
          <div>
-           <strong> {"Children" |> React.string} </strong>
-           <br />
+           <strong> {"Children: " |> React.string} </strong>
            {React.array(
               Belt.Array.map(children, c =>
                 <>
@@ -166,7 +126,6 @@ let make = (~character, ~onChangeCharacter) => {
 
          <div>
            <strong> {"TV Seasons: " |> React.string} </strong>
-           <br />
            {arr->Belt.Array.mapWithIndex((index, season) =>
               <>
                 {season##name->React.string}
@@ -183,7 +142,6 @@ let make = (~character, ~onChangeCharacter) => {
        let arr = books;
        <div>
          <strong> {"Books: " |> React.string} </strong>
-         <br />
          {books->Belt.Array.mapWithIndex((index, book) =>
             <>
               {book##name->React.string}
