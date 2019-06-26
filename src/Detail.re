@@ -22,23 +22,25 @@ let make = (~character, ~onChangeCharacter) => {
 
   let renderListItem = (~label: string, ~items) => {
     switch (items) {
-    | Some(items) => switch (Belt.Array.length(items)) {
-       | 0 => React.null
-       | _ =>
-      <div>
-        <strong> label->React.string </strong>
-        {Belt.Array.mapWithIndex(items, (index, item) =>
-           <>
-             item->React.string
-             {renderComma(items, index)}
-             {" " |> React.string}
-           </>
-         )
-         |> React.array}
-      </div>;
-    }
+    | Some(items) =>
+      switch (Belt.Array.length(items)) {
+      | 0 => React.null
+      | _ =>
+        <div>
+          <strong> label->React.string </strong>
+          {Belt.Array.mapWithIndex(items, (index, item) =>
+             <>
+               item->React.string
+               {renderComma(items, index)}
+               {" " |> React.string}
+             </>
+           )
+           |> React.array}
+        </div>
+      }
     | None => React.null
-  }};
+    };
+  };
 
   let renderCharacter = (~label: string, ~c) => {
     switch (c) {
@@ -53,11 +55,6 @@ let make = (~character, ~onChangeCharacter) => {
     };
   };
 
-  let checkIfLastItem = (arr, index) =>
-    switch (index === Belt.Array.length(arr) - 1) {
-    | true => true
-    | _ => false
-    };
   <>
     <h2> {character##name |> React.string} </h2>
     {switch (character##allegiances) {
@@ -67,26 +64,31 @@ let make = (~character, ~onChangeCharacter) => {
        | _ =>
          let renderLast = item => item##name |> React.string;
          let renderItemWithComma = item => item##name ++ ", " |> React.string;
+         let checkIfLastItem = (arr, index) =>
+           switch (index === Belt.Array.length(arr) - 1) {
+           | true => true
+           | _ => false
+           };
          let renderFunc = (index, item) =>
            checkIfLastItem(allegiances, index)
              ? renderLast(item) : renderItemWithComma(item);
-            let arr = allegiances;
+         let arr = allegiances;
          <div>
-           <strong> {"Loyal to: " |> React.string} </strong>
-           {arr->Belt.Array.mapWithIndex(renderFunc)->React.array}
-          //  {
-          //     Belt.Array.mapWithIndex(arr, (index, item) =>
-          //       <>
-          //         <a href="#" onClick={_e => handleClick(item##id)}>
-          //           {item##name->React.string}
-          //                        {renderComma(arr, index)}
 
-          //         </a>
-          //         {" " |> React.string}
-          //       </>
-          //     )|> React.array
-          //   }
-         </div>;
+             <strong> {"Loyal to: " |> React.string} </strong>
+             {arr->Belt.Array.mapWithIndex(renderFunc)->React.array}
+           </div>;
+           //  {
+           //     Belt.Array.mapWithIndex(arr, (index, item) =>
+           //       <>
+           //         <a href="#" onClick={_e => handleClick(item##id)}>
+           //           {item##name->React.string}
+           //                        {renderComma(arr, index)}
+           //         </a>
+           //         {" " |> React.string}
+           //       </>
+           //     )|> React.array
+           //   }
        }
      | None => React.null
      }}
@@ -100,7 +102,6 @@ let make = (~character, ~onChangeCharacter) => {
     {renderCharacter("Father: ", character##father)}
     {renderCharacter("Mother: ", character##mother)}
     {renderCharacter("Spouse: ", character##spouse)}
-
     {switch (character##children) {
      | Some(children) =>
        switch (Belt.Array.length(children)) {
