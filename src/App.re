@@ -15,7 +15,7 @@ let make = () => {
     </header>
     <div className="Character-wrapper">
           <CharacterList onChangeCharacter=handleSelected />
-          <CharacterDetailSwitch selectedCharacter onChangeCharacter=handleSelected />
+          <CharacterDetail selectedCharacter onChangeCharacter=handleSelected />
     </div>
   </div>;
 };

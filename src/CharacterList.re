@@ -19,7 +19,7 @@ let make = (~onChangeCharacter) => {
           <ul>
             {React.array(
                Belt.Array.map(characters, character =>
-                 <CharacterListItemCB key=character##id
+                 <CharacterListItem
                  character onChangeCharacter
                   />
                ),

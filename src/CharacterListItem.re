@@ -1,14 +1,16 @@
 Utils.requireCSS("./CharacterList.css");
 
 [@react.component]
-let make = (~character) => {
- let handleClick = (name) => Js.log(name);
-  let name = {
+let make = (~character,~onChangeCharacter) => {
+ let handleClick = (id) => {
+   onChangeCharacter(id);
+   };
+     let name = {
     character##name |> React.string;
   };
   let culture =
     switch (character##culture) {
-    | Some(culture) => culture |> React.string
+    | Some(culture) => "(" ++ culture ++ ")" |> React.string
     | None => React.null
     };
   let playedBy =
